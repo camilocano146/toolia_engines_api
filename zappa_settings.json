@@ -1,0 +1,12 @@
+{
+    "production": {
+        "app_function": "run.app",
+        "profile_name": "toolia_engines-zappa",
+        "project_name": "toolia-engines",
+        "runtime": "python3.7",
+        "s3_bucket": "toolia-engine",
+        "aws_region": "us-east-1",
+        "timeout_seconds": 500,
+        "cors": true
+    }
+}
