@@ -1,9 +1,21 @@
 # clase para comunicarse con google api
 from apiclient.discovery import build
-from gmail_api_2 import exchange_code
 import base64
 import email
 from apiclient import errors
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
+from apiclient.discovery import build
+
+CLIENTSECRETS_LOCATION = 'credentials.json'
+#REDIRECT_URI = CLIENTSECRETS_LOCATION.redirect_uris
+REDIRECT_URI = 'http://localhost:4200/code'
+SCOPES = [
+    'https://www.googleapis.com/auth/gmail.readonly',
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    # Add other requested scopes.
+]
 
 class GmailAPI:
 
@@ -16,7 +28,7 @@ class GmailAPI:
     """
     def getCredentials(self, code):
         try:
-            return exchange_code(code)
+            return self.exchange_code(code)
         except Exception as error:
             print(error)
 
@@ -113,6 +125,29 @@ class GmailAPI:
             return mime_msg
         except Exception as error:
             print(error)
+    
+    def exchange_code(self, authorization_code):
+        """Exchange an authorization code for OAuth 2.0 credentials.
+
+    Args:
+        authorization_code: Authorization code to exchange for OAuth 2.0
+                            credentials.
+    Returns:
+        oauth2client.client.OAuth2Credentials instance.
+    Raises:
+        CodeExchangeException: an error occurred.
+    """
+        flow = flow_from_clientsecrets(CLIENTSECRETS_LOCATION, ' '.join(SCOPES))
+        flow.redirect_uri = REDIRECT_URI
+        try:
+            credentials = flow.step2_exchange(authorization_code)
+            return credentials
+        except FlowExchangeError as error:
+            logging.error('An error occurred: %s', error)
+            raise CodeExchangeException(None)
+
+    
+
     
     
     

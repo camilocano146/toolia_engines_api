@@ -2,7 +2,7 @@ from flask import Blueprint, request
 import json
 import flask
 import socket
-from gmail_api import GmailAPI
+from .gmail_api import GmailAPI
 
 mod_gmail_api = Blueprint('gmail', __name__, url_prefix='/gmail')
 
