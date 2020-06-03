@@ -12,7 +12,7 @@ def subscribe_to_gmail_inbox():
     if request.method == 'POST':
         body = json.loads(request.data)
         print(body)
-        gmailAPI = GmailAPI();
+        gmailAPI = GmailAPI()
         credentials = gmailAPI.getCredentials(body["code"])
         service = gmailAPI.getService(credentials)
         subscribe = gmailAPI.subscribe(service,credentials)
