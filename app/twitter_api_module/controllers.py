@@ -157,3 +157,13 @@ def home_time_line_user_twitter():
         print(body)
         twitterAPI = TwitterAPI()
     return twitterAPI.home_timeline(body['oauth_token'], body['oauth_token_secret'])
+
+
+@mod_twitter_api.route('/about_user', methods=['POST'])
+def info_user_twitter():
+    print("app.twitter_api_module.controllers.about_user")
+    if request.method == 'POST':
+        body = json.loads(request.data)
+        print(body)
+        twitterAPI = TwitterAPI()
+    return twitterAPI.get_user_info(body['oauth_token'], body['oauth_token_secret'], body['screen_name'])

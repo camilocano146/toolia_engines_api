@@ -351,3 +351,24 @@ class TwitterAPI:
             return jsonify({"Error": "Failed to get access," + err})
 
 
+    def get_user_info(self, oauth_token, oauth_verifier,screen_name):
+        """
+        This is the equivalent of /timeline/home on the Web.
+        :param screen_name:
+        :param oauth_token:
+        :param oauth_verifier:
+        :return:Returns the 20 most recent statuses, including retweets, posted by the authenticating user and that user’s friends.
+        """
+
+        try:
+            self.auth.set_access_token(oauth_token, oauth_verifier)
+            api = tweepy.API(self.auth)
+            user_info = api.get_user(screen_name)
+            # noinspection PyProtectedMember
+            print(user_info._json['id'])
+            return jsonify(user_info._json)
+
+        except tweepy.TweepError as err:
+            return jsonify({"Error": "Failed to get access," + err})
+
+
